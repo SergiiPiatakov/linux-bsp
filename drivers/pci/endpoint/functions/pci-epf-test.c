@@ -14,6 +14,7 @@
 #include <linux/slab.h>
 #include <linux/pci_ids.h>
 #include <linux/random.h>
+#include <linux/of_reserved_mem.h>
 
 #include <linux/pci-epc.h>
 #include <linux/pci-epf.h>
@@ -937,6 +938,12 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
 			return -ENOMEM;
 		test_reg_size = bar_size[test_reg_bar];
 	}
+
+	/* Dedicated reserved memory for PCIe BAR */
+	if (of_reserved_mem_device_init(epf->epc->dev.parent))
+		dev_err(dev, "Could not get reserved memory\n");
+	else
+		dma_set_coherent_mask(epf->epc->dev.parent, 0xFFFFFFFF);
 
 	base = pci_epf_alloc_space(epf, test_reg_size, test_reg_bar,
 				   epc_features->align);
