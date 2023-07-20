@@ -22,6 +22,13 @@
 		#size-cells = <2>;
 		ranges;
 
+		/* Reserved region for PCIe resizable BAR0 */
+		pcie_bar0: linux,pcie_bar@50000000 {
+			compatible = "shared-dma-pool";
+			reusable;
+			reg = <0x00000000 0x50000000 0x0 0x400000>;
+		};
+
 		vdsp0_region: linux,vdsp0_region@5d000000 {
 			compatible = "shared-dma-pool";
 			reusable;
@@ -65,6 +72,15 @@
 			reg = <0x00000000 0x80000000 0x0 0x23000000>;
 			linux,cma-default;
 		};
+
+#if defined(PCIE_2CH_2LANE)
+		pcie1_bar0: linux,pcie1_bar@b0000000 {
+			compatible = "shared-dma-pool";
+			reusable;
+			reg = <0x00000000 0xb0000000 0x0 0x400000>;
+		};
+#endif
+
 	};
 
 	dsi-con0 {

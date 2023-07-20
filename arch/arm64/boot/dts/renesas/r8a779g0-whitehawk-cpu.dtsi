@@ -144,6 +144,7 @@
 	num-lanes = <4>;
 	clocks = <&cpg CPG_MOD 624>, <&cpg CPG_MOD 625>;
 	clock-names = "pcie0_clk", "pcie1_clk";
+	memory-region = <&pcie_bar0>;
 	status = "disabled";
 };
 #elif defined(PCIE_2CH_2LANE)
@@ -158,10 +159,12 @@
 };
 
 &pciec0_ep {
+	memory-region = <&pcie_bar0>;
 	status = "disabled";
 };
 
 &pciec1_ep {
+	memory-region = <&pcie1_bar0>;
 	status = "disabled";
 };
 #else
@@ -172,6 +175,7 @@
 };
 
 &pciec0_ep {
+	memory-region = <&pcie_bar0>;
 	status = "disabled";
 };
 #endif
